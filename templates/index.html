@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Academic Advisor</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="brand">ACADEMIC<span>AI</span></div>
+        <p>Smart Academic Guidance System</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <p class="eyebrow">YOUR ACADEMIC COMPANION</p>
+            <h1>Plan better.<br>Learn smarter.</h1>
+            <p>
+                Enter your academic information to receive a
+                machine-learning-based support category and
+                personalised study recommendations.
+            </p>
+        </section>
+
+        <section class="panel">
+            <h2>Student Information</h2>
+            <p class="muted">Fill in all five fields below.</p>
+
+            <form method="POST">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="cgpa">Current CGPA (0–5)</label>
+                        <input id="cgpa" name="cgpa" type="number"
+                               min="0" max="5" step="0.01"
+                               placeholder="e.g. 3.20" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="attendance">Attendance (%)</label>
+                        <input id="attendance" name="attendance"
+                               type="number" min="0" max="100"
+                               step="0.1" placeholder="e.g. 80"
+                               required>
+                    </div>
+
+                    <div class="field">
+                        <label for="assessment_score">
+                            Average Assessment Score (%)
+                        </label>
+                        <input id="assessment_score"
+                               name="assessment_score"
+                               type="number" min="0" max="100"
+                               step="0.1" placeholder="e.g. 72"
+                               required>
+                    </div>
+
+                    <div class="field">
+                        <label for="course_load">Number of Courses</label>
+                        <input id="course_load" name="course_load"
+                               type="number" min="1" max="20"
+                               placeholder="e.g. 6" required>
+                    </div>
+
+                    <div class="field full-width">
+                        <label for="failed_courses">
+                            Previously Failed Courses
+                        </label>
+                        <input id="failed_courses"
+                               name="failed_courses"
+                               type="number" min="0" max="20"
+                               placeholder="e.g. 1" required>
+                    </div>
+                </div>
+
+                <button type="submit">Get Academic Advice →</button>
+            </form>
+
+            {% if error %}
+                <div class="error">
+                    <strong>Input error:</strong> {{ error }}
+                </div>
+            {% endif %}
+
+            {% if result %}
+                <div class="result">
+                    <p class="eyebrow">YOUR ASSESSMENT</p>
+                    <h2>{{ result.category }}</h2>
+
+                    <div class="stats">
+                        <div>
+                            <span>CGPA</span>
+                            <strong>{{ result.cgpa }}</strong>
+                        </div>
+                        <div>
+                            <span>Attendance</span>
+                            <strong>{{ result.attendance }}%</strong>
+                        </div>
+                        <div>
+                            <span>Assessment</span>
+                            <strong>{{ result.score }}%</strong>
+                        </div>
+                    </div>
+
+                    <h3>Recommended Actions</h3>
+                    <ul>
+                        {% for item in result.advice %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="disclaimer">
+                        This is a student project using synthetic
+                        training data. It is not an official academic
+                        decision or a substitute for advice from
+                        your university.
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>AI Academic Advisor System | Student Project</p>
+    </footer>
+
+</body>
+</html>
